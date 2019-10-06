@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+    <div class="wrapper">
+        <Cards></Cards>
+        <Filters></Filters>
+    </div>
 </template>
 
 <script>
-    // @ is an alias to /src
-    import HelloWorld from "@/components/HelloWorld.vue";
+    import Filters from "@/components/List/Filters";
+    import Cards from "@/components/List/Cards";
 
     export default {
-  name: "home",
-  components: {
-    HelloWorld
-  }
-};
+        name: "home",
+        components: {Cards, Filters},
+    };
 </script>
+
+<style lang="scss" scoped>
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: transparent;
+        width: 1100px;
+        height: 100%;
+        margin: 0 auto;
+        overflow: visible;
+    }
+</style>

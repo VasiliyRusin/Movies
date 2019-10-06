@@ -1,0 +1,16 @@
+@import "variables";
+
+@mixin ul-normalize() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@mixin input {
+    border: none;
+    padding: 0.625em;
+    font-size: inherit;
+    font-family: inherit;
+    border-radius: $border-radius;
+    background-color: $color;
+}
