@@ -3,7 +3,7 @@
         <article>
             <header>
                 <h1 class="year">
-                    {{ (new Date("2015-08-23")).getFullYear() }}
+                    {{ year }}
                 </h1>
                 <div class="poster">
                     <img :alt="name" :src="src" :srcset="srcset" v-if="item.poster_path">
@@ -27,15 +27,15 @@
             <ul>
                 <li>
                     <h2>Оригинальное название</h2>
-                    <p>{{ item.original_name }}</p>
+                    <p>{{ original_name }}</p>
                 </li>
 
                 <li>
                     <h2>Статус</h2>
-                    <p>{{ (item.in_production) ? 'In production' : 'ended' }}</p>
+                    <p>{{ item.status }}</p>
                 </li>
 
-                <li>
+                <li v-if="type === 'tv'">
                     <h2>Информация о релизе</h2>
                     <p>{{ item.type }}</p>
                 </li>
@@ -52,14 +52,14 @@
                     </p>
                 </li>
 
-                <li v-show="type === 'movie'">
+                <li v-if="type === 'movie'">
                     <h2>Бюджет</h2>
-                    <p></p>
+                    <p>{{ item.budget | money }}</p>
                 </li>
 
-                <li v-show="type === 'movie'">
+                <li v-if="type === 'movie'">
                     <h2>Сборы</h2>
-                    <p></p>
+                    <p>{{ item.revenue | money }}</p>
                 </li>
             </ul>
         </aside>
@@ -109,6 +109,14 @@
 
             name () {
                 return this.item.name || this.item.title
+            },
+
+            year () {
+                return (new Date(this.item.first_air_date || this.item.release_date)).getFullYear()
+            },
+
+            original_name () {
+                return this.item.original_name || this.item.original_title
             },
 
             type () {
