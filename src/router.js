@@ -1,17 +1,23 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Main from "./views/Main.vue";
+import List from "./views/List.vue";
+import Item from "./views/Item.vue";
 
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-        name: "main",
-        component: Main
-    }
-  ]
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes: [
+        {
+            path: "/",
+            name: "list",
+            component: List
+        },
+        {
+            path: "/item/:id",
+            name: "item",
+            component: Item
+        }
+    ]
 });

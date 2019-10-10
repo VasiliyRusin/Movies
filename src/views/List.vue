@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
-        <Cards></Cards>
-        <Filters></Filters>
+        <Cards :filters="filters"></Cards>
+        <Filters :params.sync="filters"></Filters>
     </div>
 </template>
 
@@ -10,8 +10,19 @@
     import Cards from "@/components/List/Cards";
 
     export default {
-        name: "home",
-        components: {Cards, Filters},
+        name: "List",
+        components: { Cards, Filters },
+        data () {
+            return {
+                filters: {
+                    type: 'tv',
+                    year: null,
+                    sortBy: 'popularity',
+                    desc: true,
+                    genres: []
+                }
+            }
+        }
     };
 </script>
 

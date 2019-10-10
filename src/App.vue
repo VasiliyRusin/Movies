@@ -46,6 +46,9 @@
     import Header from "@/components/Header";
 
     export default {
-        components: {Header}
+        components: { Header },
+        beforeCreate () {
+            this.$store.dispatch('getGenres');
+        }
     }
 </script>
