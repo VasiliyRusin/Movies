@@ -1,5 +1,5 @@
 <template>
-    <div class="modal" v-show="isOpen">
+    <div class="modal" v-if="isOpen">
         <div class="modal-wrapper">
             <div class="modal-content">
                 <header>

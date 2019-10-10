@@ -6,13 +6,13 @@
                     {{ year }}
                 </h1>
                 <div class="poster">
-                    <img :alt="name" :src="src" :srcset="srcset" v-if="item.poster_path">
-                    <img :alt="name" src="" v-else>
+                    <img :alt="item.name" :src="src" :srcset="srcset" v-if="item.poster_path">
+                    <img :alt="item.name" src="" v-else>
                     <div @click="isOpenTrailer = true"></div>
                 </div>
                 <div>
                     <h1>
-                        {{ name }}
+                        {{ item.name }}
                     </h1>
                     <ul>
                         <li :key="genre.id" v-for="genre in item.genres">{{ genre.name }}</li>
@@ -27,7 +27,7 @@
             <ul>
                 <li>
                     <h2>Оригинальное название</h2>
-                    <p>{{ original_name }}</p>
+                    <p>{{ item.original_name }}</p>
                 </li>
 
                 <li>
@@ -65,9 +65,12 @@
         </aside>
         <Modal :is-open.sync="isOpenTrailer">
             <template v-slot>
-                <iframe :src="`http://www.youtube.com/embed/${ trailer.key }?autoplay=1`" allowfullscreen height="360"
-                        style="margin: auto; display: block; border: none"
-                        width="640"></iframe>
+                <div class="modal-wrapper">
+                    <div class="loader"></div>
+                    <iframe :src="`http://www.youtube.com/embed/${ trailer.key }?autoplay=1`" allowfullscreen
+                            class="youtube"
+                            height="395" width="702"></iframe>
+                </div>
             </template>
         </Modal>
     </div>
@@ -83,11 +86,11 @@
         beforeMount () {
             switch (this.type) {
                 case 'tv':
-                    tv(this.$route.params.id).then(response => this.item = response);
+                    tv(this.$route.params.id).then(this.setItem);
                     break;
 
                 case 'movie':
-                    movie(this.$route.params.id).then(response => this.item = response);
+                    movie(this.$route.params.id).then(this.setItem);
                     break;
             }
 
@@ -104,19 +107,12 @@
 
         computed: {
             runtime () {
-                return (this.item.episode_run_time || []).map(el => `${ el }m`).join(', ')
-            },
-
-            name () {
-                return this.item.name || this.item.title
+                if (this.type === 'tv') return (this.item.episode_run_time || []).map(el => `${ el }m`).join(', ');
+                else return this.toTime(this.item.runtime);
             },
 
             year () {
-                return (new Date(this.item.first_air_date || this.item.release_date)).getFullYear()
-            },
-
-            original_name () {
-                return this.item.original_name || this.item.original_title
+                return (new Date(this.item.release_date)).getFullYear()
             },
 
             type () {
@@ -129,6 +125,34 @@
 
             srcset () {
                 return `https://image.tmdb.org/t/p/w185_and_h278_bestv2${ this.item.poster_path } 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2${ this.item.poster_path } 2x`
+            }
+        },
+
+        methods: {
+            setItem (item) {
+                this.item = {
+                    name: item.name || item.title,
+                    original_name: item.original_name || item.original_title,
+                    release_date: item.first_air_date || item.release_date,
+                    overview: item.overview,
+                    genres: item.genres,
+                    poster_path: item.poster_path,
+                    budget: item.budget,
+                    revenue: item.revenue,
+                    status: item.status,
+                    type: item.type,
+                    original_language: item.original_language,
+                    episode_run_time: item.episode_run_time,
+                    runtime: item.runtime
+                };
+            },
+
+            toTime (n) {
+                let hours = (n / 60);
+                let rhours = Math.floor(hours);
+                let minutes = (hours - rhours) * 60;
+                let rminutes = Math.round(minutes);
+                return `${ rhours }h ${ rminutes }m`;
             }
         }
     }
@@ -150,6 +174,28 @@
             overflow: hidden;
             max-width: 600px;
             position: relative;
+
+            .modal-wrapper {
+                position: relative;
+            }
+
+            .loader {
+                @include loader;
+
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+
+            .youtube {
+                margin: auto;
+                border: none;
+                display: block;
+                position: relative;
+                border-radius: $border-radius;
+            }
 
             header {
                 display: flex;

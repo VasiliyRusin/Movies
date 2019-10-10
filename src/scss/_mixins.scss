@@ -15,6 +15,36 @@
     border-radius: $border-radius;
 }
 
+@mixin loader {
+    position: relative;
+
+    &:before {
+        $size: 50px;
+
+        content: '';
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        width: $size;
+        height: $size;
+        position: absolute;
+        border-radius: 50%;
+        background-color: royalblue;
+        animation: loader 1s infinite ease-in-out;
+
+        @keyframes loader {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+    }
+}
+
 @mixin segment {
     display: flex;
     overflow: hidden;
