@@ -1,11 +1,8 @@
 <template>
-    <router-link :to="{ name: 'item',  params: { id: item.id }}">
+    <router-link :to="{ name: 'item',  params: { type, id: item.id }}">
         <article>
-            <picture>
-                <img :alt="name" :src="`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${ item.poster_path }`"
-                     v-if="item.poster_path">
-                <img :alt="name" src="" v-else>
-            </picture>
+            <img :alt="name" :src="src" :srcset="srcset" v-if="item.poster_path">
+            <img :alt="name" src="" v-else>
             <div>
                 <h1>{{ name }}</h1>
                 <ul>
@@ -22,7 +19,8 @@
     export default {
         name: "Card",
         props: {
-            item: Object
+            item: Object,
+            type: String
         },
 
         computed: {
@@ -36,6 +34,14 @@
 
             name () {
                 return this.item.name || this.item.title
+            },
+
+            src () {
+                return `https://image.tmdb.org/t/p/w185_and_h278_bestv2${ this.item.poster_path }`
+            },
+
+            srcset () {
+                return `https://image.tmdb.org/t/p/w185_and_h278_bestv2${ this.item.poster_path } 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2${ this.item.poster_path } 2x`
             }
         }
     }

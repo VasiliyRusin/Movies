@@ -5,7 +5,7 @@
         </h3>
         <ul>
             <li :key="item.id" v-for="item in cards">
-                <Card :item="item"></Card>
+                <Card :item="item" :type="filters.type"></Card>
             </li>
         </ul>
         <button @click="nextPage()" v-show="more">Загрузить еще...</button>

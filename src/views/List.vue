@@ -28,13 +28,13 @@
 
 <style lang="scss" scoped>
     .wrapper {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        background-color: transparent;
-        width: 1100px;
         height: 100%;
+        width: 1100px;
+        display: flex;
+        padding: 20px;
         margin: 0 auto;
         overflow: visible;
+        background-color: transparent;
+        justify-content: space-between;
     }
 </style>

@@ -1,8 +1,8 @@
 <template>
-    <div id="app">
+    <main id="app">
         <Header></Header>
         <router-view/>
-    </div>
+    </main>
 </template>
 
 <style lang="scss">
@@ -37,7 +37,7 @@
         box-sizing: border-box;
     }
 
-    #app {
+    main {
         overflow: hidden;
         min-height: 100%;
     }
